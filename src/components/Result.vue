@@ -2,9 +2,9 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">{{ renderSectionName(sectionKeyName) }} - Page {{ pageNumber }}</h5>
-            <p class="card-text">
-                <pre>{{ renderRecord(record) }}</pre>
-            </p>
+            <div class="card-text record">
+                <div v-html="renderRecord(record)"></div>
+            </div>
         </div>
     </div>
 </template>
@@ -15,7 +15,11 @@
         props: {
             sectionKeyName: String,
             pageNumber: Number,
-            record: String
+            record: String,
+            toHighlight: {
+                default: '',
+                type: String
+            }
         },
         data() {
             return {
@@ -34,7 +38,15 @@
         methods: {
             renderRecord(record) {
                 console.log(record);
-                // record = record.replace("\n", "<br />");
+                record = record.replace("\n", "<br />");
+                if (this.toHighlight) {
+                    record = record.replace(this.toHighlight,
+                        `<span class='highlight' style="background-color: #FFF000">${this.toHighlight}</span>`);
+                    record = record.replace(this.toHighlight.toUpperCase(),
+                        `<span class='highlight' style="background-color: #FFF000">${this.toHighlight.toUpperCase()}</span>`);
+                    record = record.replace(this.toHighlight.toLowerCase(),
+                        `<span class='highlight' style="background-color: #FFF000">${this.toHighlight.toLowerCase()}</span>`);
+                }
                 return record;
             },
             renderSectionName(sectionKeyName) {
@@ -45,5 +57,12 @@
 </script>
 
 <style scoped>
+    .record {
+        font-family: monospace;
+        font-size: 9pt;
+    }
 
+    .highlight {
+        background-color: #FFF000;
+    }
 </style>

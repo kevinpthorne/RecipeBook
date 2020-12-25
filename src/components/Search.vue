@@ -14,13 +14,12 @@
 <script>
     export default {
         name: "Search",
-        data() {
-            return {
-                searchTerm: ''
-            };
-        },
         props: {
-            onsubmit: Function
+            onsubmit: Function,
+            searchTerm: {
+                default: '',
+                type: String
+            }
         },
         methods: {
             submit: function () {
